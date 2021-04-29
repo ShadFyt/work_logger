@@ -8,8 +8,9 @@ authors = ["Ryan Doan"]
 python = "^3.9"
 Django = "^3.2"
 
-[tool.poetry.dev-dependencies]
 
+[tool.poetry.dev-dependencies]
+black = "^21.4b1"
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
