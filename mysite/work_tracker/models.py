@@ -1,8 +1,6 @@
-from datetime import datetime
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
-from django.utils import timezone
-
+from datetime import datetime
 # Create your models here.
 
 class MyAccountManager(BaseUserManager):
@@ -83,3 +81,18 @@ class TimeSheet(models.Model):
     start_time = models.TimeField(blank=True)
     end_time = models.TimeField(blank=True)
     location = models.CharField(max_length=100)
+
+    @property
+    def day_label(self):
+        for day in self.DayInWeek:
+            if self.day_in_week == day:
+                return day.label
+
+    def __str__(self) -> str:
+        return f'{self.date} at {self.location}'
+
+    def __repr__(self) -> str:
+        return f'{__class__.__name__}: date: {self.date}, location: {self.location}'
+
+    class Meta:
+        ordering = ['-date']

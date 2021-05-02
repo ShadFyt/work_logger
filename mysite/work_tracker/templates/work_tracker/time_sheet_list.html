@@ -1,0 +1,34 @@
+
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+  <table id="sheets" class="mui-table mui-table--bordered">
+    <thead>
+        <tr>
+          <th>Day</th>
+          <th>Date</th>
+          <th>Location</th>
+          <th colspan="2">Edit</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- for class based views rename this queryset to quote_list -->
+        {% for time_sheet in time_sheets %}
+        <tr>
+          <td><a href="/work_tracker/{{time_sheet.id}}">{{ time_sheet.day_label }}</a></td>
+          <td>{{ time_sheet.date }}</td>
+          <td>{{ time_sheet.location.capitalize}} </td>
+          <td><a class="mui-bDeleted mui-btn--small mui-btn--flat mui-btn--primary" href="#">Edit</a></td>
+          <td><a class="mui-btn mui-btn--small mui-btn--flat mui-btn--danger" href="#">Delete</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+  </table>
+
+  <div class="mui-container">
+    <a class="mui-btn mui-btn--primary" href="#">Add new entry</a>
+  </div>
+
+{% endblock %}
