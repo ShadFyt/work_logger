@@ -1,7 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from datetime import datetime
+
 # Create your models here.
+
 
 class MyAccountManager(BaseUserManager):
     def create_user(self, email, username, first_name, password=None):
@@ -11,28 +13,27 @@ class MyAccountManager(BaseUserManager):
             raise ValueError("Users must have a username")
         if not first_name:
             raise ValueError("Users must have a first name")
-        
+
         user = self.model(
-            email = self.normalize_email(email),
-            username = username,
-            first_name = first_name
+            email=self.normalize_email(email), username=username, first_name=first_name
         )
 
         user.set_password(password)
-        user.save(using = self._db)
+        user.save(using=self._db)
         return user
-    
+
     def create_superuser(self, email, username, first_name, password=None):
         user = self.create_user(
             email,
-            username = username,
-            first_name= first_name,
-            password = password,
+            username=username,
+            first_name=first_name,
+            password=password,
         )
 
         user.is_admin = True
-        user.save(using = self._db)
+        user.save(using=self._db)
         return user
+
 
 class Profile(AbstractBaseUser):
     email = models.EmailField(verbose_name="email", max_length=100, unique=True)
@@ -48,8 +49,6 @@ class Profile(AbstractBaseUser):
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["username", "first_name"]
 
-    
-
     def __str__(self):
         return f"Email: {self.email}, Username: {self.username}"
 
@@ -58,7 +57,7 @@ class Profile(AbstractBaseUser):
 
     def has_module_perms(self, app_label):
         return True
-    
+
     @property
     def is_staff(self):
         "Is the user a member of staff?"
@@ -77,9 +76,9 @@ class TimeSheet(models.Model):
 
     day_in_week = models.CharField(max_length=3, choices=DayInWeek.choices)
 
-    date = models.DateField(default=datetime.now())
-    start_time = models.TimeField(blank=True)
-    end_time = models.TimeField(blank=True)
+    date = models.DateField(default=datetime.now)
+    start_time = models.CharField(max_length=10)
+    end_time = models.CharField(max_length=10)
     location = models.CharField(max_length=100)
 
     @property
@@ -88,11 +87,15 @@ class TimeSheet(models.Model):
             if self.day_in_week == day:
                 return day.label
 
+    @property
+    def display_hours(self):
+        pass
+
     def __str__(self) -> str:
-        return f'{self.date} at {self.location}'
+        return f"{self.date} at {self.location}"
 
     def __repr__(self) -> str:
-        return f'{__class__.__name__}: date: {self.date}, location: {self.location}'
+        return f"{__class__.__name__}: date: {self.date}, location: {self.location}"
 
     class Meta:
-        ordering = ['-date']
+        ordering = ["-date"]

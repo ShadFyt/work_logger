@@ -33,13 +33,14 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'work_tracker.apps.WorkTrackerConfig',
+    "work_tracker.apps.WorkTrackerConfig",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django_extensions",
 ]
 
 MIDDLEWARE = [
@@ -57,7 +58,7 @@ ROOT_URLCONF = "mysite.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [os.path.join(PROJECT_DIR, 'templates/work_tracker')],
+        "DIRS": [os.path.join(PROJECT_DIR, "templates/work_tracker")],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -70,7 +71,7 @@ TEMPLATES = [
     },
 ]
 
-AUTH_USER_MODEL = 'work_tracker.Profile'
+AUTH_USER_MODEL = "work_tracker.Profile"
 
 WSGI_APPLICATION = "mysite.wsgi.application"
 
@@ -124,9 +125,7 @@ USE_TZ = True
 
 STATIC_URL = "/static/"
 
-STATICFILES_DIRS = (
-    os.path.join(PROJECT_DIR, 'static'),
-)
+STATICFILES_DIRS = (os.path.join(PROJECT_DIR, "static"),)
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
