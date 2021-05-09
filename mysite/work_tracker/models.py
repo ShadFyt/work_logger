@@ -1,3 +1,4 @@
+from typing import List
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from datetime import datetime
@@ -82,14 +83,15 @@ class TimeSheet(models.Model):
     location = models.CharField(max_length=100)
 
     @property
+    def get_total_hours(self):
+        total = abs(float(self.start_time.replace(':', '.')) - float(self.end_time.replace(':', '.')))
+        return round(total, 2)
+
+    @property
     def day_label(self):
         for day in self.DayInWeek:
             if self.day_in_week == day:
                 return day.label
-
-    @property
-    def display_hours(self):
-        pass
 
     def __str__(self) -> str:
         return f"{self.date} at {self.location}"
@@ -99,3 +101,31 @@ class TimeSheet(models.Model):
 
     class Meta:
         ordering = ["-date"]
+
+
+class Job(models.Model):
+    pass
+
+
+class WeekTimeSheet():
+    def __init__(self, date_one: datetime, date_two: datetime, pay_rate: int) -> None:
+        self.date_one = date_one
+        self.date_two = date_two
+        self.pay_rate = pay_rate
+        self.sheet = TimeSheet.objects.filter(date__gte=self.date_one, date__lte=self.date_two)
+
+    @property
+    def display_time_sheet(self):
+        ordered_sheet = self.sheet.order_by('date')
+        for i in ordered_sheet:
+            print(
+                f'{i.day_label}: {i.date}, Start time: {i.start_time}, End time: {i.end_time}, Location: {i.location}, Hours: {i.get_total_hours}'
+            )
+
+    @property
+    def total_week_hours(self):
+        hours: List = []
+        for i in self.sheet:
+            hours.append(i.get_total_hours)
+
+        return f"Total hours worked for the week is: {sum(hours)}"
