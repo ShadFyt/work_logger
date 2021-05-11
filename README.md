@@ -1,5 +1,5 @@
 # work_logger
-Work logger is an app for people in the trades or self employed to keep track of when and where they worked.
+Work logger is an app for people in the trades or self employed to keep track of some job info eg - start time, end time, job location....
 
 ## Roadmap
 Add a function that will generate a time sheet of a given week in excel. \
