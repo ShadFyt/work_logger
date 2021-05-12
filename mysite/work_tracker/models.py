@@ -1,4 +1,4 @@
-from typing import List
+from typing import Any, List
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from datetime import datetime
@@ -65,6 +65,18 @@ class Profile(AbstractBaseUser):
         return self.is_admin
 
 
+class Job(models.Model):
+
+    name = models.CharField(max_length=50, unique=True)
+    job_type = models.CharField(max_length=50)
+    location = models.CharField(max_length=100)
+    sqft = models.IntegerField(blank=True)
+    description = models.TextField(blank=True)
+
+    def __str__(self) -> str:
+        return f"Job name: {self.name}, Type of job: {self.job_type}"
+
+
 class TimeSheet(models.Model):
     class DayInWeek(models.TextChoices):
         MONDAY = "MON", ("Monday")
@@ -76,15 +88,17 @@ class TimeSheet(models.Model):
         SUNDAY = "SUN", ("Sunday")
 
     day_in_week = models.CharField(max_length=3, choices=DayInWeek.choices)
-
     date = models.DateField(default=datetime.now)
     start_time = models.CharField(max_length=10)
     end_time = models.CharField(max_length=10)
-    location = models.CharField(max_length=100)
+    job = models.ForeignKey(Job, on_delete=models.CASCADE)
 
     @property
     def get_total_hours(self):
-        total = abs(float(self.start_time.replace(':', '.')) - float(self.end_time.replace(':', '.')))
+        total = abs(
+            float(self.start_time.replace(":", "."))
+            - float(self.end_time.replace(":", "."))
+        )
         return round(total, 2)
 
     @property
@@ -94,32 +108,30 @@ class TimeSheet(models.Model):
                 return day.label
 
     def __str__(self) -> str:
-        return f"{self.date} at {self.location}"
+        return f"{self.day_in_week}, start {self.start_time}, end {self.end_time}"
 
     def __repr__(self) -> str:
-        return f"{__class__.__name__}: date: {self.date}, location: {self.location}"
+        return f"{__class__.__name__}: date: {self.date}"
 
     class Meta:
         ordering = ["-date"]
 
 
-class Job(models.Model):
-    pass
-
-
-class WeekTimeSheet():
+class WeekTimeSheet:
     def __init__(self, date_one: datetime, date_two: datetime, pay_rate: int) -> None:
         self.date_one = date_one
         self.date_two = date_two
         self.pay_rate = pay_rate
-        self.sheet = TimeSheet.objects.filter(date__gte=self.date_one, date__lte=self.date_two)
+        self.sheet = TimeSheet.objects.filter(
+            date__gte=self.date_one, date__lte=self.date_two
+        )
 
     @property
     def display_time_sheet(self):
-        ordered_sheet = self.sheet.order_by('date')
+        ordered_sheet = self.sheet.order_by("date")
         for i in ordered_sheet:
             print(
-                f'{i.day_label}: {i.date}, Start time: {i.start_time}, End time: {i.end_time}, Location: {i.location}, Hours: {i.get_total_hours}'
+                f"{i.day_label}: {i.date}, Start time: {i.start_time}, End time: {i.end_time}, Location: Temp, Hours: {i.get_total_hours}"
             )
 
     @property

@@ -3,7 +3,7 @@ from django.urls import reverse
 from django.views import generic
 from django.contrib import messages
 
-from .models import TimeSheet
+from .models import TimeSheet, Job
 from .forms import TimeSheetQuote
 
 
@@ -22,6 +22,11 @@ def time_sheet_list(request):
 def entry_detail(request, pk):
     entry = get_object_or_404(TimeSheet, pk=pk)
     return render(request, "work_tracker/entry_detail.html", {"entry": entry})
+
+
+def job_detail(request):
+    # details = get_object_or_404(Job, pk=1)
+    return render(request, "work_tracker/job_detail.html")
 
 
 def entry_new(request):

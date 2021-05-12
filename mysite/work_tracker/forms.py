@@ -6,4 +6,4 @@ from .models import TimeSheet
 class TimeSheetQuote(ModelForm):
     class Meta:
         model = TimeSheet
-        fields = ["day_in_week", "start_time", "end_time", "location"]
+        fields = ["day_in_week", "start_time", "end_time"]
