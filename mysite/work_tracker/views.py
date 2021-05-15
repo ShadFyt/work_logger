@@ -24,9 +24,12 @@ def entry_detail(request, pk):
     return render(request, "work_tracker/entry_detail.html", {"entry": entry})
 
 
-def job_detail(request):
-    # details = get_object_or_404(Job, pk=1)
-    return render(request, "work_tracker/job_detail.html")
+def job_detail(request, id):
+    details = get_object_or_404(Job, id=id)
+    times = details.time_sheet.all()
+    return render(
+        request, "work_tracker/job_detail.html", {"details": details, "times": times}
+    )
 
 
 def entry_new(request):

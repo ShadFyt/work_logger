@@ -10,7 +10,7 @@
     <details>
       <summary>Details</summary>
       <p>
-        100 sqft tear out and replace, 400 sqft sand plus stain.  remove shoe molding 
+        {{details.description}}
       </p>
     </details>
     <details>
@@ -20,15 +20,21 @@
           <tr>
             <th>Day</th>
             <th>Date</th>
-            <th>Loc</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+            <th>Total Hours</th>
           </tr>
         </thead>
         <tbod>
+          {% for i in times %}
           <tr>
-            <td>Monday</td>
-            <td>2021-01-04</td>
-            <td>Woodview</td>
+            <td>{{i.day_label}}</td>
+            <td>{{i.date}}</td>
+            <td>{{i.start_time}}</td>
+            <td>{{i.end_time}}</td>
+            <td>{{i.get_total_hours}}</td>
           </tr>
+          {% endfor%}
         </tbod>
       </table>
     </details>

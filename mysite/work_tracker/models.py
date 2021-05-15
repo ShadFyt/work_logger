@@ -91,7 +91,7 @@ class TimeSheet(models.Model):
     date = models.DateField(default=datetime.now)
     start_time = models.CharField(max_length=10)
     end_time = models.CharField(max_length=10)
-    job = models.ForeignKey(Job, on_delete=models.CASCADE)
+    job = models.ForeignKey(Job, on_delete=models.CASCADE, related_name="time_sheet")
 
     @property
     def get_total_hours(self):
