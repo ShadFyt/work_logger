@@ -5,12 +5,12 @@
 
     <section>
     <h1>
-      Big House
+      {{job.name}}
     </h1>
     <details>
       <summary>Details</summary>
       <p>
-        {{details.description}}
+        {{job.description}}
       </p>
     </details>
     <details>
@@ -25,23 +25,23 @@
             <th>Total Hours</th>
           </tr>
         </thead>
-        <tbod>
-          {% for i in times %}
+        <tbody>
+          {% for entry in job.time_entry.all %}
           <tr>
-            <td>{{i.day_label}}</td>
-            <td>{{i.date}}</td>
-            <td>{{i.start_time}}</td>
-            <td>{{i.end_time}}</td>
-            <td>{{i.get_total_hours}}</td>
+            <td>{{entry.day_label}}</td>
+            <td>{{entry.date}}</td>
+            <td>{{entry.start_time}}</td>
+            <td>{{entry.end_time}}</td>
+            <td>{{entry.get_total_hours}}</td>
           </tr>
           {% endfor%}
-        </tbod>
+        </tbody>
       </table>
     </details>
     <details>
       <summary>Location
       </summary>
-      <p>google maps display </p>
+      <p>google maps display: {{job.location.title}} </p>
     </details>
     <details>
       <summary>Expenses

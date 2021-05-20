@@ -1,10 +1,15 @@
+from typing import Any, Dict, List
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
-from django.views import generic
+from django.urls.base import reverse_lazy
+from django.utils import timezone
+from django.views.generic import ListView
 from django.contrib import messages
+from django.views.generic.detail import DetailView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
-from .models import TimeSheet, Job
-from .forms import TimeSheetQuote
+from .models import TimeEntry, Job
+from .forms import TimeEntryForm
 
 
 # Create your views here.
@@ -12,33 +17,51 @@ def index(request):
     return render(request, "work_tracker/index.html")
 
 
-def time_sheet_list(request):
-    time_sheets = TimeSheet.objects.all()
-    return render(
-        request, "work_tracker/time_sheet_list.html", {"time_sheets": time_sheets}
-    )
+class TimeEntryListView(ListView):
+
+    model = TimeEntry
+    template_name = "time_entry_list.html"
+
+    def get_time_entry_data(self, **kwargs):
+        return super().get_context_data(**kwargs)
 
 
-def entry_detail(request, pk):
-    entry = get_object_or_404(TimeSheet, pk=pk)
-    return render(request, "work_tracker/entry_detail.html", {"entry": entry})
+class TimeEntryDetailView(DetailView):
+
+    model = TimeEntry
+    template_name = "entry_detail.htm"
+
+    def get_context_data(self, **kwargs: Any):
+        return super().get_context_data(**kwargs)
 
 
-def job_detail(request, id):
-    details = get_object_or_404(Job, id=id)
-    times = details.time_sheet.all()
-    return render(
-        request, "work_tracker/job_detail.html", {"details": details, "times": times}
-    )
+class JobDetailView(DetailView):
+
+    model = Job
+    template_name = "job_detail.htm"
+
+    def get(self, request, *args: Any, **kwargs: Any):
+        return super().get(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        return super().get_context_data(**kwargs)
 
 
-def entry_new(request):
-    pass
+class TimeEntryCreate(CreateView):
+    model = TimeEntry
+    template_name = "time_entry_form.htm"
+    fields = ["day_in_week", "date", "start_time", "end_time", "job"]
+    success_url = "/work_tracker"
 
 
-def entry_edit(request, pk):
-    pass
+class TimeEntryUpdateView(UpdateView):
+    model = TimeEntry
+    template_name = "time_entry_form.htm"
+    fields = ["day_in_week", "date", "start_time", "end_time", "job"]
+    success_url = "/work_tracker"
 
 
-def entry_delete(request, pk):
-    pass
+
+class TimeEntryDelView(DeleteView):
+    model = TimeEntry
+    success_url = "/work_tracker"

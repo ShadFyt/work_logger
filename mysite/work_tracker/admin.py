@@ -6,7 +6,7 @@ from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.core.exceptions import ValidationError
 
 # Register your models here.
-from .models import Job, Profile, TimeSheet
+from .models import Job, Profile, TimeEntry
 
 
 class UserCreationForm(forms.ModelForm):
@@ -83,7 +83,7 @@ class UserAdmin(BaseUserAdmin):
     filter_horizontal = ()
 
 
-class TimeSheetAdmin(admin.ModelAdmin):
+class TimeEntryAdmin(admin.ModelAdmin):
     list_display = ("date", "start_time", "end_time")
     search_fields = ("day_in_week",)
 
@@ -94,6 +94,6 @@ class JobAdmin(admin.ModelAdmin):
 
 admin.site.register(Profile, UserAdmin)
 admin.site.register(Job, JobAdmin)
-admin.site.register(TimeSheet, TimeSheetAdmin)
+admin.site.register(TimeEntry, TimeEntryAdmin)
 
 admin.site.unregister(Group)

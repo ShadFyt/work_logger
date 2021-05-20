@@ -5,10 +5,10 @@ from . import views
 app_name = "work_tracker"
 urlpatterns = [
     # path('index', views.index, name='index'),
-    path("", views.time_sheet_list, name="time_sheet_list"),
-    path("<int:pk>", views.entry_detail, name="entry_datail"),
-    path("new", views.entry_new, name="entry_new"),
-    path("edit/<int:pk>", views.entry_edit, name="entry_edit"),
-    path("delete/<int:pk>", views.entry_delete, name="entry_delete"),
-    path("job/<int:id>", views.job_detail, name="job_detail"),
+    path("", views.TimeEntryListView.as_view(), name="time_sheet_list"),
+    path("<int:pk>", views.TimeEntryDetailView.as_view(), name="entry_datail"),
+    path("entry/new/", views.TimeEntryCreate.as_view(), name="entry-new"),
+    path("<int:pk>/update", views.TimeEntryUpdateView.as_view(), name="entry-update"),
+    path("<int:pk>/delete", views.TimeEntryDelView.as_view(), name="entry_delete"),
+    path("job/<int:pk>", views.JobDetailView.as_view(), name="job_detail"),
 ]

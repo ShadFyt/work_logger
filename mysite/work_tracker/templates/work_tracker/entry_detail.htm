@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+  <h1>{{object.job.location}}</h1>
+  <p>{{object.date}}</p>
+  <p>{{object.start_time}} - {{object.end_time}}</p>
+  <p>Total hours worked for today - <em>{{object.get_total_hours}}</em></p>
+
+{% endblock %}

@@ -1,7 +1,9 @@
-from typing import Any, List
+from typing import List
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from datetime import datetime
+
+from django.urls.base import reverse_lazy
 
 # Create your models here.
 
@@ -77,7 +79,11 @@ class Job(models.Model):
         return f"Job name: {self.name}, Type of job: {self.job_type}"
 
 
-class TimeSheet(models.Model):
+class TimeEntry(models.Model):
+    """
+    A model used to represent an employee time punch clock
+
+    """
     class DayInWeek(models.TextChoices):
         MONDAY = "MON", ("Monday")
         TUESDAY = "TUE", ("Tuesday")
@@ -91,8 +97,10 @@ class TimeSheet(models.Model):
     date = models.DateField(default=datetime.now)
     start_time = models.CharField(max_length=10)
     end_time = models.CharField(max_length=10)
-    job = models.ForeignKey(Job, on_delete=models.CASCADE, related_name="time_sheet")
+    job = models.ForeignKey(Job, on_delete=models.CASCADE, related_name="time_entry")
 
+    # Convert string: "9:00" into float: 9.0 then 
+    # Get the difference of the two numbers 
     @property
     def get_total_hours(self):
         total = abs(
@@ -101,6 +109,8 @@ class TimeSheet(models.Model):
         )
         return round(total, 2)
 
+    # returns the label for DayInWeek(TextChoices)
+    #example TimeEntry.DayInWeek('MON').label 'Monday'
     @property
     def day_label(self):
         for day in self.DayInWeek:
@@ -117,12 +127,12 @@ class TimeSheet(models.Model):
         ordering = ["-date"]
 
 
-class WeekTimeSheet:
+class WeekTimeEntries:
     def __init__(self, date_one: datetime, date_two: datetime, pay_rate: int) -> None:
         self.date_one = date_one
         self.date_two = date_two
         self.pay_rate = pay_rate
-        self.sheet = TimeSheet.objects.filter(
+        self.sheet = TimeEntry.objects.filter(
             date__gte=self.date_one, date__lte=self.date_two
         )
 
