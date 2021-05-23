@@ -1,1 +1,2 @@
-.mysite.secrets.py
+*.py~
+git rm <secrets.py>
