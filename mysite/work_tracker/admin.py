@@ -84,6 +84,17 @@ class UserAdmin(BaseUserAdmin):
 
 
 class TimeEntryAdmin(admin.ModelAdmin):
+    
+    def get_changeform_initial_data(self, request):
+        get_data = super(TimeEntryAdmin, self).get_changeform_initial_data(request)
+        get_data['employee'] = request.user.pk
+        return get_data
+
+    def save_model(self, request, obj, form, change) -> None:
+        if not obj.pk:
+            obj.employee = request.user
+        return super().save_model(request, obj, form, change)
+
     list_display = ("date", "start_time", "end_time")
     search_fields = ("day_in_week",)
 

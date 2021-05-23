@@ -14,6 +14,7 @@
         <link href="//cdn.muicss.com/mui-0.10.3/css/mui.min.css" rel="stylesheet" type="text/css" />
         <link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css"/>
         <script src="//cdn.muicss.com/mui-0.10.3/js/mui.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
     </head>
     <body>
         <header class="mui-appbar mui--z1">
@@ -21,12 +22,16 @@
                 <table>
                     <tr class="mui--appbar-height">
                         <td>
-                            <a id="pageTitle" href="{% url "work_tracker:time_sheet_list" %}">Work Logger</a>
+                            <a id="pageTitle" href="{% url "work_tracker:time_entry_list" %}">Work Logger</a>
                         </td>
                         <td class="mui--text-right">
                             <ul class="mui-list--inline mui--text-boby2">
                                 <li><a href="#">About</a></li>
-                                <li><a href="#">Login</a></li>
+                                {% if request.user.is_authenticated%}
+                                <li><a href="/accounts/logout">Logout <strong>{{request.user.first_name.title}}</strong></a></li>
+                                {% else %}
+                                <li><a href="/accounts/login">Login</a></li>
+                                {% endif %}
                             </ul>
                         </td>
                     </tr>

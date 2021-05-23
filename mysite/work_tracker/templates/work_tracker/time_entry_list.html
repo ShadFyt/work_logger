@@ -3,32 +3,39 @@
 
 
 {% block content %}
-
-  <table id="sheets" class="mui-table mui-table--bordered">
-    <thead>
-        <tr>
-          <th>Day</th>
-          <th>Date</th>
-          <th>Location</th>
-          <th colspan="2">Edit</th>
-        </tr>
-    </thead>
-    <tbody>
-        <!-- for class based views rename this queryset to quote_list -->
-        {% for time_entry in object_list %}
-        <tr>
-          <td><a href="/work_tracker/{{time_entry.id}}">{{ time_entry.day_label }}</a></td>
-          <td>{{ time_entry.date }}</td>
-          <td><a href="/work_tracker/job/{{time_entry.job_id}}">{{ time_entry.job.location}}</a></td>
-          <td><a class="mui-bDeleted mui-btn--small mui-btn--flat mui-btn--primary" href="/work_tracker/{{time_entry.id}}/update">Edit</a></td>
-          <td><a class="mui-btn mui-btn--small mui-btn--flat mui-btn--danger" href="/work_tracker/{{time_entry.id}}/delete">Delete</a></td>
-        </tr>
-        {% endfor %}
-    </tbody>
-  </table>
-
+  <div id="app">
+    <h1>[[message]]</h1>
+    <table id="sheets" class="mui-table mui-table--bordered">
+      <thead>
+          <tr>
+            <th>Day</th>
+            <th>Date</th>
+            <th>Location</th>
+            <th colspan="2">Edit</th>
+          </tr>
+      </thead>
+      <tbody>
+          <!-- for class based views rename this queryset to quote_list -->
+          {% for time_entry in object_list %}
+          <tr>
+            <td><a href="/work_tracker/{{time_entry.id}}">{{ time_entry.day_label }}</a></td>
+            <td>{{ time_entry.date }}</td>
+            <td><a href="/work_tracker/job/{{time_entry.job_id}}">{{ time_entry.job.location}}</a></td>
+            {% if request.user.is_authenticated %}
+            <td><a class="mui-bDeleted mui-btn--small mui-btn--flat mui-btn--primary" href="/work_tracker/{{time_entry.id}}/update">Edit</a></td>
+            <td><a class="mui-btn mui-btn--small mui-btn--flat mui-btn--danger" href="/work_tracker/{{time_entry.id}}/delete">Delete</a></td>
+            {% endif %}
+          </tr>
+          {% endfor %}
+      </tbody>
+    </table>
+    {% load static %}
+    <script src="{% static 'js/main.js' %}"></script>
+  </div>
   <div class="mui-container">
+    {% if request.user.is_authenticated %}
     <a class="mui-btn mui-btn--primary" href="/work_tracker/entry/new/">Add new entry</a>
+    {% endif %}
   </div>
 
 {% endblock %}

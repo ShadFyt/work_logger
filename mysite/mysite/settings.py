@@ -12,17 +12,19 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 import os
+from .secrets import SECRET_KEY_DJ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 PROJECT_DIR = os.path.join(BASE_DIR, "work_tracker")
+STATIC_URL = '/static/'
 # os.path.join(PROJECT_DIR, 'templates'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-zfkmn)+4ni+3ua^+mj2u*o0j@h0%7(1gzr84wx@&2&3r2*qyoc"
+SECRET_KEY = SECRET_KEY_DJ
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -41,6 +43,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django_extensions",
+    "django_registration",
 ]
 
 MIDDLEWARE = [
@@ -58,7 +61,10 @@ ROOT_URLCONF = "mysite.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [os.path.join(PROJECT_DIR, "templates/work_tracker")],
+        "DIRS": [
+            os.path.join(PROJECT_DIR, "templates/work_tracker"),
+            os.path.join(PROJECT_DIR, "templates/registration")
+            ],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -131,3 +137,7 @@ STATICFILES_DIRS = (os.path.join(PROJECT_DIR, "static"),)
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+ACCOUNT_ACTIVATION_DAYS = 7
+LOGOUT_REDIRECT_URL = 'work_tracker:time_entry_list'
+LOGIN_REDIRECT_URL = 'work_tracker:time_entry_list'

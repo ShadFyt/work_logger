@@ -1,12 +1,9 @@
-from typing import Any, Dict, List
-from django.shortcuts import render, get_object_or_404, redirect
-from django.urls import reverse
-from django.urls.base import reverse_lazy
-from django.utils import timezone
+from typing import Any, Dict
+from django.shortcuts import render
 from django.views.generic import ListView
-from django.contrib import messages
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy
 
 from .models import TimeEntry, Job
 from .forms import TimeEntryForm
@@ -21,7 +18,7 @@ class TimeEntryListView(ListView):
 
     model = TimeEntry
     template_name = "time_entry_list.html"
-
+    
     def get_time_entry_data(self, **kwargs):
         return super().get_context_data(**kwargs)
 
@@ -29,7 +26,7 @@ class TimeEntryListView(ListView):
 class TimeEntryDetailView(DetailView):
 
     model = TimeEntry
-    template_name = "entry_detail.htm"
+    template_name = "entry_detail.html"
 
     def get_context_data(self, **kwargs: Any):
         return super().get_context_data(**kwargs)
@@ -50,16 +47,19 @@ class JobDetailView(DetailView):
 class TimeEntryCreate(CreateView):
     model = TimeEntry
     template_name = "time_entry_form.htm"
-    fields = ["day_in_week", "date", "start_time", "end_time", "job"]
-    success_url = "/work_tracker"
+    form_class = TimeEntryForm
+    success_url = reverse_lazy("work_tracker:time_entry_list")
+
+    def form_valid(self, form):
+        form.instance.employee = self.request.user
+        return super().form_valid(form)
 
 
 class TimeEntryUpdateView(UpdateView):
     model = TimeEntry
     template_name = "time_entry_form.htm"
-    fields = ["day_in_week", "date", "start_time", "end_time", "job"]
+    form_class = TimeEntryForm
     success_url = "/work_tracker"
-
 
 
 class TimeEntryDelView(DeleteView):

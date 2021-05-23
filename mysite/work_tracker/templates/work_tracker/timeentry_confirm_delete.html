@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<h1 class="mui--text-display1">Comfirm Delete</h1>
 
-<form action='' method="post">
+<form method="post">
     {% csrf_token %}
-    <p>Are you sure you want to delete</p>
-    <input type="submit" value"Comfirm" />
+    <input class="mui-btn mui-btn--danger" type="submit" value="Delete"/>
 </form>
 
 {% endblock %}

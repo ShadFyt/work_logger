@@ -42,8 +42,8 @@ class Profile(AbstractBaseUser):
     email = models.EmailField(verbose_name="email", max_length=100, unique=True)
     username = models.CharField(max_length=30, unique=True)
     date_joined = models.DateTimeField(verbose_name="date joined", auto_now_add=True)
-    first_name = models.CharField(max_length=20)
-    last_name = models.CharField(max_length=20)
+    first_name = models.CharField(max_length=20, blank=True)
+    last_name = models.CharField(max_length=20, blank=True)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
 
@@ -83,7 +83,17 @@ class TimeEntry(models.Model):
     """
     A model used to represent an employee time punch clock
 
+    ATTR
+    {
+        day_in_week: 'MON',
+        date: '2021-05-22',
+        start_time: '7:00',
+        end_time: '15:00',
+        job: Job
+    }
+
     """
+
     class DayInWeek(models.TextChoices):
         MONDAY = "MON", ("Monday")
         TUESDAY = "TUE", ("Tuesday")
@@ -98,9 +108,10 @@ class TimeEntry(models.Model):
     start_time = models.CharField(max_length=10)
     end_time = models.CharField(max_length=10)
     job = models.ForeignKey(Job, on_delete=models.CASCADE, related_name="time_entry")
+    employee = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='employee')
 
-    # Convert string: "9:00" into float: 9.0 then 
-    # Get the difference of the two numbers 
+    # Convert string: "9:00" into float: 9.0 then
+    # Get the difference of the two numbers
     @property
     def get_total_hours(self):
         total = abs(
@@ -110,7 +121,7 @@ class TimeEntry(models.Model):
         return round(total, 2)
 
     # returns the label for DayInWeek(TextChoices)
-    #example TimeEntry.DayInWeek('MON').label 'Monday'
+    # example TimeEntry.DayInWeek('MON').label 'Monday'
     @property
     def day_label(self):
         for day in self.DayInWeek:
