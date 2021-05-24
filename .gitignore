@@ -1,0 +1,5 @@
+**pyc
+**swp
+**__pycache__
+*sqlite3
+git rm secrets.py
