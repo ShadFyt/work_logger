@@ -2,6 +2,7 @@
 {% extends 'base.html' %}
 
 
+
 {% block content %}
   <div id="app">
     <h1>[[message]]</h1>
@@ -11,7 +12,9 @@
             <th>Day</th>
             <th>Date</th>
             <th>Location</th>
+            {% if request.user.is_authenticated%}
             <th colspan="2">Edit</th>
+            {% endif %}
           </tr>
       </thead>
       <tbody>

@@ -4,6 +4,7 @@ from django.views.generic import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import TimeEntry, Job
 from .forms import TimeEntryForm
@@ -13,11 +14,15 @@ from .forms import TimeEntryForm
 def index(request):
     return render(request, "work_tracker/index.html")
 
-
-class TimeEntryListView(ListView):
+class TimeEntryListView(LoginRequiredMixin, ListView):
 
     model = TimeEntry
     template_name = "time_entry_list.html"
+    login_url = 'login'
+
+    def get_queryset(self):
+        user = self.request.user
+        return TimeEntry.objects.filter(employee=user)
     
     def get_time_entry_data(self, **kwargs):
         return super().get_context_data(**kwargs)
@@ -35,10 +40,7 @@ class TimeEntryDetailView(DetailView):
 class JobDetailView(DetailView):
 
     model = Job
-    template_name = "job_detail.htm"
-
-    def get(self, request, *args: Any, **kwargs: Any):
-        return super().get(request, *args, **kwargs)
+    template_name = "job_detail.html"
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         return super().get_context_data(**kwargs)

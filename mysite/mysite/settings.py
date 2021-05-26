@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 import os
-from .secrets import SECRET_KEY_DJ
+from .secrets import SECRET_KEY_DJ, SENDGRID_API_KEY, SENDGRIND_ID
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -35,7 +35,6 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    "work_tracker.apps.WorkTrackerConfig",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -44,6 +43,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django_extensions",
     "django_registration",
+    "work_tracker",
 ]
 
 MIDDLEWARE = [
@@ -62,8 +62,8 @@ TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         "DIRS": [
-            os.path.join(PROJECT_DIR, "templates/work_tracker"),
-            os.path.join(PROJECT_DIR, "templates/registration")
+            os.path.join(BASE_DIR, 'mysite/templates'),
+            os.path.join(PROJECT_DIR, 'templates/work_tracker'),
             ],
         "APP_DIRS": True,
         "OPTIONS": {
@@ -141,3 +141,10 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 ACCOUNT_ACTIVATION_DAYS = 7
 LOGOUT_REDIRECT_URL = 'work_tracker:time_entry_list'
 LOGIN_REDIRECT_URL = 'work_tracker:time_entry_list'
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = SENDGRIND_ID
+EMAIL_HOST_PASSWORD = SENDGRID_API_KEY

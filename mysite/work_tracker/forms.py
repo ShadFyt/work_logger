@@ -1,6 +1,7 @@
 from django.forms import ModelForm
+from django_registration.forms import RegistrationForm
 
-from .models import TimeEntry
+from .models import TimeEntry, Profile
 
 
 class TimeEntryForm(ModelForm):
@@ -10,3 +11,9 @@ class TimeEntryForm(ModelForm):
     class Meta:
         model = TimeEntry
         fields = ["day_in_week", "date", "start_time", "end_time", "job"]
+
+
+class MyCustomUserForm(RegistrationForm):
+    class Meta(RegistrationForm.Meta):
+        model = Profile
+        fields = ['email', 'username', 'password1', 'password2']

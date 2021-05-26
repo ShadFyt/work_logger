@@ -1,9 +1,9 @@
 {
-    "python.pythonPath": "C:\\Users\\shadowfyt\\AppData\\Local\\pypoetry\\Cache\\virtualenvs\\work-logger-t6e_-XfV-py3.9\\Scripts\\python.exe",
     "python.languageServer": "Pylance",
     "cSpell.words": [
         "getenv",
         "mysite",
         "sqft"
-    ]
+    ],
+    "python.pythonPath": "C:\\Users\\shadowfyt\\AppData\\Local\\pypoetry\\Cache\\virtualenvs\\work-logger-t6e_-XfV-py3.9\\Scripts\\python.exe"
 }
