@@ -17,7 +17,7 @@ Including another URLconf
 from work_tracker.forms import MyCustomUserForm
 from django.contrib import admin
 from django.urls import path, include
-from django_registration.views import RegistrationView
+from django_registration.backends.activation.views import RegistrationView
 
 
 urlpatterns = [

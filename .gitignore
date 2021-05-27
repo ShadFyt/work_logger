@@ -2,4 +2,5 @@
 **swp
 **__pycache__
 *sqlite3
-git rm secrets.py
+mysite/mysite/secrets.py
+poetry.toml

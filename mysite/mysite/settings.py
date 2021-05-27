@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 import os
-from .secrets import SECRET_KEY_DJ, SENDGRID_API_KEY, SENDGRIND_ID
+from .secrets import GMAIL_PASSWORD, GMAIL_USER, SECRET_KEY_DJ, SENDGRID_API_KEY, SENDGRIND_ID
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -142,9 +142,11 @@ ACCOUNT_ACTIVATION_DAYS = 7
 LOGOUT_REDIRECT_URL = 'work_tracker:time_entry_list'
 LOGIN_REDIRECT_URL = 'work_tracker:time_entry_list'
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+#EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.sendgrid.net'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = SENDGRIND_ID
+EMAIL_HOST_USER = 'apikey'
 EMAIL_HOST_PASSWORD = SENDGRID_API_KEY
+DEFAULT_FROM_EMAIL = 'workLogger@protonmail.com'

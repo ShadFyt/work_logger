@@ -2,6 +2,7 @@ from typing import List
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from datetime import datetime
+from django.core.mail import send_mail
 
 from django.urls.base import reverse_lazy
 
@@ -65,6 +66,16 @@ class Profile(AbstractBaseUser):
     def is_staff(self):
         "Is the user a member of staff?"
         return self.is_admin
+    
+    # adds email_user method to my custom user model
+    def email_user(self, *args, **kwargs):
+        send_mail(
+            '{}'.format(args[0]),
+            '{}'.format(args[1]),
+            '{}'.format(args[2]),
+            [self.email],
+            fail_silently=False,
+        )
 
 
 class Job(models.Model):
