@@ -84,10 +84,9 @@ class UserAdmin(BaseUserAdmin):
 
 
 class TimeEntryAdmin(admin.ModelAdmin):
-    
     def get_changeform_initial_data(self, request):
         get_data = super(TimeEntryAdmin, self).get_changeform_initial_data(request)
-        get_data['employee'] = request.user.pk
+        get_data["employee"] = request.user.pk
         return get_data
 
     def save_model(self, request, obj, form, change) -> None:
@@ -107,4 +106,4 @@ admin.site.register(Profile, UserAdmin)
 admin.site.register(Job, JobAdmin)
 admin.site.register(TimeEntry, TimeEntryAdmin)
 
-admin.site.unregister(Group)
+#admin.site.unregister(Group)

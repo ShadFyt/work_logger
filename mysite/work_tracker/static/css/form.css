@@ -1,0 +1,21 @@
+*, *:before, *:after {
+    box-sizing: border-box;
+}
+
+input, #id_day_in_week, #id_job {
+    padding: 5px;
+    margin: 5px;
+    border: 1px;
+    box-shadow: 0 0 15px 4px  rgba(0,0,0,0.06);
+    border-radius: 10px;
+    width: 75%;
+}
+
+
+
+form label {
+    display: block;
+    margin: 10px 0px;
+    color: rgb(62, 63, 63);
+}
+

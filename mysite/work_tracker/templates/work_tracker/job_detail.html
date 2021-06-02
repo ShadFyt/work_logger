@@ -1,8 +1,9 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block extrahead %}<link href="{% static 'css/job.css' %}" rel="stylesheet" type="text/css"/>{% endblock %}
 
 {% block content %}
-    {% load static %}
-    <div><link href="{% static 'css/job.css' %}" rel="stylesheet" type="text/css"/></div>
     <section>
     <h1>
       {{job.name}}

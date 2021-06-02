@@ -16,4 +16,6 @@ class TimeEntryForm(ModelForm):
 class MyCustomUserForm(RegistrationForm):
     class Meta(RegistrationForm.Meta):
         model = Profile
-        fields = ['email', 'username', 'password1', 'password2']
+        fields = ["email", "username", "password1", "password2"]
+
+#TODO: Add ProfileForm to edit user profile

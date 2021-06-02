@@ -11,20 +11,22 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+
+# library for working with environment variable
+from dotenv import load_dotenv
 import os
-from .secrets import GMAIL_PASSWORD, GMAIL_USER, SECRET_KEY_DJ, SENDGRID_API_KEY, SENDGRIND_ID
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 PROJECT_DIR = os.path.join(BASE_DIR, "work_tracker")
-STATIC_URL = '/static/'
+STATIC_URL = "/static/"
 # os.path.join(PROJECT_DIR, 'templates'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
-
+load_dotenv()
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = SECRET_KEY_DJ
+SECRET_KEY = os.getenv("SECRET_KEY_DJ")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -43,6 +45,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django_extensions",
     "django_registration",
+    # own apps
     "work_tracker",
 ]
 
@@ -62,9 +65,9 @@ TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         "DIRS": [
-            os.path.join(BASE_DIR, 'mysite/templates'),
-            os.path.join(PROJECT_DIR, 'templates/work_tracker'),
-            ],
+            os.path.join(BASE_DIR, "mysite/templates"),
+            os.path.join(PROJECT_DIR, "templates/work_tracker"),
+        ],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -85,6 +88,7 @@ WSGI_APPLICATION = "mysite.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+# TODO: change database to prostgres db
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
@@ -139,14 +143,13 @@ STATICFILES_DIRS = (os.path.join(PROJECT_DIR, "static"),)
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 ACCOUNT_ACTIVATION_DAYS = 7
-LOGOUT_REDIRECT_URL = 'work_tracker:time_entry_list'
-LOGIN_REDIRECT_URL = 'work_tracker:time_entry_list'
+LOGOUT_REDIRECT_URL = "work_tracker:time_entry_list"
+LOGIN_REDIRECT_URL = "work_tracker:time_entry_list"
 
-#EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.sendgrid.net"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'apikey'
-EMAIL_HOST_PASSWORD = SENDGRID_API_KEY
-DEFAULT_FROM_EMAIL = 'workLogger@protonmail.com'
+EMAIL_HOST_USER = os.getenv("SENDGRIND_ID")
+EMAIL_HOST_PASSWORD = os.getenv("SENDGRID_API_KEY")
+DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL")

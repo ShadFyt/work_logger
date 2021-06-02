@@ -12,35 +12,40 @@ from .forms import TimeEntryForm
 
 # Create your views here.
 def index(request):
+    #TODO: Make this the HomePageView
     return render(request, "work_tracker/index.html")
 
-class TimeEntryListView(LoginRequiredMixin, ListView):
 
+class TimeEntryListView(LoginRequiredMixin, ListView):
+    # View all time entry realted to login User
     model = TimeEntry
     template_name = "time_entry_list.html"
-    login_url = 'login'
+    login_url = "login"
 
+    # Gets data only realted to signed in user
     def get_queryset(self):
         user = self.request.user
         return TimeEntry.objects.filter(employee=user)
-    
+
     def get_time_entry_data(self, **kwargs):
         return super().get_context_data(**kwargs)
 
 
-class TimeEntryDetailView(DetailView):
+class TimeEntryDetailView(LoginRequiredMixin, DetailView):
 
     model = TimeEntry
     template_name = "entry_detail.html"
+    login_url = "login"
 
     def get_context_data(self, **kwargs: Any):
         return super().get_context_data(**kwargs)
 
 
-class JobDetailView(DetailView):
+class JobDetailView(LoginRequiredMixin, DetailView):
 
     model = Job
     template_name = "job_detail.html"
+    login_url = "login"
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         return super().get_context_data(**kwargs)
@@ -48,7 +53,7 @@ class JobDetailView(DetailView):
 
 class TimeEntryCreate(CreateView):
     model = TimeEntry
-    template_name = "time_entry_form.htm"
+    template_name = "time_entry_form.html"
     form_class = TimeEntryForm
     success_url = reverse_lazy("work_tracker:time_entry_list")
 
@@ -59,7 +64,7 @@ class TimeEntryCreate(CreateView):
 
 class TimeEntryUpdateView(UpdateView):
     model = TimeEntry
-    template_name = "time_entry_form.htm"
+    template_name = "time_entry_form.html"
     form_class = TimeEntryForm
     success_url = "/work_tracker"
 
@@ -67,3 +72,5 @@ class TimeEntryUpdateView(UpdateView):
 class TimeEntryDelView(DeleteView):
     model = TimeEntry
     success_url = "/work_tracker"
+
+#TODO: Add edit Profile view

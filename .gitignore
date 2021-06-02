@@ -3,4 +3,6 @@
 **__pycache__
 *sqlite3
 mysite/mysite/secrets.py
+mysite/mysite/.env
 poetry.toml
+mysite/htmlcov

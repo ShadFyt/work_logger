@@ -2,9 +2,9 @@ from typing import List
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from datetime import datetime
+from django.utils import timezone
 from django.core.mail import send_mail
 
-from django.urls.base import reverse_lazy
 
 # Create your models here.
 
@@ -40,6 +40,7 @@ class MyAccountManager(BaseUserManager):
 
 
 class Profile(AbstractBaseUser):
+    # Custom User model
     email = models.EmailField(verbose_name="email", max_length=100, unique=True)
     username = models.CharField(max_length=30, unique=True)
     date_joined = models.DateTimeField(verbose_name="date joined", auto_now_add=True)
@@ -66,13 +67,14 @@ class Profile(AbstractBaseUser):
     def is_staff(self):
         "Is the user a member of staff?"
         return self.is_admin
-    
-    # adds email_user method to my custom user model
+
     def email_user(self, *args, **kwargs):
+        # adds email_user method to my custom user model
+
         send_mail(
-            '{}'.format(args[0]),
-            '{}'.format(args[1]),
-            '{}'.format(args[2]),
+            "{}".format(args[0]),
+            "{}".format(args[1]),
+            "{}".format(args[2]),
             [self.email],
             fail_silently=False,
         )
@@ -83,11 +85,11 @@ class Job(models.Model):
     name = models.CharField(max_length=50, unique=True)
     job_type = models.CharField(max_length=50)
     location = models.CharField(max_length=100)
-    sqft = models.IntegerField(blank=True)
+    sqft = models.IntegerField(blank=True, null=True)
     description = models.TextField(blank=True)
 
     def __str__(self) -> str:
-        return f"Job name: {self.name}, Type of job: {self.job_type}"
+        return f"Name: {self.name.title()}, Location: {self.location}"
 
 
 class TimeEntry(models.Model):
@@ -119,22 +121,24 @@ class TimeEntry(models.Model):
     start_time = models.CharField(max_length=10)
     end_time = models.CharField(max_length=10)
     job = models.ForeignKey(Job, on_delete=models.CASCADE, related_name="time_entry")
-    employee = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='employee')
+    employee = models.ForeignKey(
+        Profile, on_delete=models.CASCADE, related_name="employee"
+    )
 
-    # Convert string: "9:00" into float: 9.0 then
-    # Get the difference of the two numbers
     @property
     def get_total_hours(self):
+        # Convert string: "9:00" into float: 9.0 then
+        # Get the difference of the two numbers
         total = abs(
             float(self.start_time.replace(":", "."))
             - float(self.end_time.replace(":", "."))
         )
         return round(total, 2)
 
-    # returns the label for DayInWeek(TextChoices)
-    # example TimeEntry.DayInWeek('MON').label 'Monday'
     @property
     def day_label(self):
+        # returns the label for DayInWeek(TextChoices)
+        # example TimeEntry.DayInWeek('MON').label 'Monday'
         for day in self.DayInWeek:
             if self.day_in_week == day:
                 return day.label
@@ -148,6 +152,7 @@ class TimeEntry(models.Model):
     class Meta:
         ordering = ["-date"]
 
+#TODO: Make expense model
 
 class WeekTimeEntries:
     def __init__(self, date_one: datetime, date_two: datetime, pay_rate: int) -> None:
