@@ -18,6 +18,7 @@ class JobTest(TestCase):
         j = self.create_job()
         self.assertTrue(isinstance(j, Job))
         self.assertEqual(j.__str__(), f'Name: {j.name.title()}, Location: {j.location}')
+        self.assertEqual(j.name, 'lake view house')
 
     
 class TimeEntryTest(TestCase):

@@ -1,5 +1,74 @@
-{% extends 'base.html' %}
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Home</title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="" />
+  </head>
+  <body>
+    <!--[if lt IE 7]>
+      <p class="browsehappy">
+        You are using an <strong>outdated</strong> browser. Please
+        <a href="#">upgrade your browser</a> to improve your experience.
+      </p>
+    <![endif]-->
+    <h1>Hello World</h1>
+    <div>
+      <form action="">
+        <div>
+          <label for="first">First Name</label>
+          <input type="text" name="first" id="first" required />
+          <label for="last">Last Name</label>
+          <input type="text" name="last" id="last" required />
+        </div>
+        <p>Select a Race</p>
+        <div>
+          <input type="radio" name="race" id="funrun" value="funrun" />
+          <label for="funrun">Fun Run 5k</label>
+        </div>
+        <div>
+          <input type="radio" name="race" id="half" value="half" />
+          <label for="half">Half Marathon</label>
+        </div>
+        <div>
+          <input type="radio" name="race" id="full" value="full" />
+          <label for="full">Full Marathon</label>
+        </div>
+        <div>
+          <label for="email">Email</label>
+          <input type="email" name="email" id="email" />
+          <label for="password">Password</label>
+          <input type="password" name="password" id="password" />
+        </div>
+        <div>
+          <label for="age">Select Age Group</label>
 
-{% block title %}Home{% endblock %}
+          <select name="age" id="age">
+            <option value="under 18">under 18</option>
+            <option value="18-30">18-30</option>
+            <option value="30-50">30-50</option>
+            <option value="50+">50+</option>
+          </select>
+        </div>
+        <button>Register</button>
+      </form>
+    </div>
 
-{% block content %}<h1>HELLO WORLD </h1>{% endblock content %}
+    <!-- nav>ui>li*3 -->
+    <nav>
+      <ui>
+        <li></li>
+        <li></li>
+        <li></li>
+      </ui>
+    </nav>
+    <script src="" async defer></script>
+  </body>
+</html>

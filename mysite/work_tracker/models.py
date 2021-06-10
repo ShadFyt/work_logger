@@ -2,6 +2,7 @@ from typing import List
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from datetime import datetime
+from django.urls import reverse
 from django.utils import timezone
 from django.core.mail import send_mail
 
@@ -67,6 +68,11 @@ class Profile(AbstractBaseUser):
     def is_staff(self):
         "Is the user a member of staff?"
         return self.is_admin
+
+    # return full name ex.. John Doe
+    @property
+    def full_name(self):
+        return f"{self.first_name.title()} {self.last_name.title()}"
 
     def email_user(self, *args, **kwargs):
         # adds email_user method to my custom user model
@@ -152,7 +158,35 @@ class TimeEntry(models.Model):
     class Meta:
         ordering = ["-date"]
 
-#TODO: Make expense model
+
+# TODO: Make expense model
+class Expense(models.Model):
+
+    item_name = models.CharField(max_length=50)
+    store = models.CharField(max_length=50)
+    price = models.FloatField(default=0.00)
+    date = models.DateField(default=datetime.now)
+    description = models.TextField(max_length=500, blank=True, null=True)
+    paid = models.BooleanField(default=True)
+    job = models.ForeignKey(Job, verbose_name="job", on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = "expense"
+        verbose_name_plural = verbose_name + "s"
+
+    def __str__(self):
+        return (
+            f"{self.item_name} was purchased at {self.store.title()} for ${self.price}"
+        )
+
+    def get_absolute_url(self):
+        return reverse("expense_detail", kwargs={"pk": self.pk})
+
+    @property
+    def price_plus_tax(self):
+        GST = 0.013
+        return self.price * GST
+
 
 class WeekTimeEntries:
     def __init__(self, date_one: datetime, date_two: datetime, pay_rate: int) -> None:

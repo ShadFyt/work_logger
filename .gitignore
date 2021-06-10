@@ -6,3 +6,4 @@ mysite/mysite/secrets.py
 mysite/mysite/.env
 poetry.toml
 mysite/htmlcov
+mysite/work_tracker/templates/work_tracker/index.html

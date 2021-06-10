@@ -13,8 +13,6 @@ button {
   text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.004);
 }
 
-
-
 /**
  * Header CSS
  */
@@ -38,6 +36,14 @@ header table {
   width: 100%;
 }
 
+caption {
+  padding: 20px;
+  caption-side: bottom;
+  font-size: large;
+  font-weight: 500;
+  font-family: cursive;
+  color: rgb(131, 127, 127);
+}
 
 /**
  * Content CSS
@@ -52,7 +58,6 @@ header table {
 }
 
 #sheets {
-
   padding: 25px 75px 0px 75px;
 }
 
@@ -70,5 +75,3 @@ footer {
 /**
 job detail page css
 */
-
-
