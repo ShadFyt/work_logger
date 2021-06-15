@@ -9,5 +9,6 @@ urlpatterns = [
     path("entry/new/", views.TimeEntryCreate.as_view(), name="entry-new"),
     path("<int:pk>/update", views.TimeEntryUpdateView.as_view(), name="entry-update"),
     path("<int:pk>/delete", views.TimeEntryDelView.as_view(), name="entry_delete"),
+    path("job/", views.JobListView.as_view(), name="job_list"),
     path("job/<int:pk>", views.JobDetailView.as_view(), name="job_detail"),
 ]

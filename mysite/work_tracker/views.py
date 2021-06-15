@@ -31,6 +31,15 @@ class TimeEntryListView(LoginRequiredMixin, ListView):
         return super().get_context_data(**kwargs)
 
 
+class JobListView(ListView):
+
+    model = Job
+    template_name = "job_list_html"
+
+    def get_job_data(self, **kwargs):
+        return super().get_context_data(**kwargs)
+
+
 class TimeEntryDetailView(LoginRequiredMixin, DetailView):
 
     model = TimeEntry
