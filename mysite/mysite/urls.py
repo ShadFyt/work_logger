@@ -19,6 +19,7 @@ from django.urls import include, path
 from django_registration.backends.activation.views import RegistrationView
 from work_tracker.forms import MyCustomUserForm
 
+router = routers.DefaultRouter()
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -30,4 +31,5 @@ urlpatterns = [
     ),
     path("accounts/", include("django_registration.backends.activation.urls")),
     path("accounts/", include("django.contrib.auth.urls")),
+    path(r"api/", include("api.urls")),
 ]

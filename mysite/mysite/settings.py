@@ -45,8 +45,10 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django_extensions",
     "django_registration",
+    "rest_framework",
     # own apps
     "work_tracker",
+    "api",
 ]
 
 MIDDLEWARE = [
