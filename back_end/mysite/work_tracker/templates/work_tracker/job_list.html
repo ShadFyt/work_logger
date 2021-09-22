@@ -1,0 +1,28 @@
+{% extends 'base.html' %} {% load static %} {% block extrahead %}<link
+  href="{% static 'css/job_list.css' %}"
+  rel="stylesheet"
+  type="text/css"
+/>{% endblock %} {% block content %}
+
+<div class="container">
+  <ul class="responsive-table">
+    <li class="table-header">
+      <div class="col col-1">Job Id</div>
+      <div class="col col-2">Name</div>
+      <div class="col col-3">Location</div>
+      <div class="col col-4">Status</div>
+    </li>
+    {% for job in object_list %}
+    <li class="table-row">
+      <div class="col col-1" data-label="Job Id">
+        <a href="/work_tracker/job/{{job.id}}">{{ job.id }}</a>
+      </div>
+      <div class="col col-2" data-label="Name">{{ job.name }}</div>
+      <div class="col col-3" data-label="Location">{{ job.location }}</div>
+      <div class="col col-4" data-label="Status">Ongoing</div>
+    </li>
+    {% endfor %}
+  </ul>
+</div>
+
+{% endblock content %}
